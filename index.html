@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<link rel="canonical" href="https://radut.github.io/rauthenticator/">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>rAuthenticator — two-factor codes on your Mac, iPhone and iPad</title>
@@ -12,7 +13,6 @@
 <link rel="icon" type="image/png" href="assets/icon.png">
 <link rel="apple-touch-icon" href="assets/icon.png">
 <style>
-[hidden] { display: none !important; }
 :root {
   --bg: #09090b;
   --bg-raised: #111114;
@@ -62,6 +62,9 @@ nav.top .links a:hover { color: var(--text); }
 .btn.primary { background: var(--text); color: #0b0b0d; border-color: var(--text); }
 .btn.primary:hover { background: #fff; }
 .btn.small { padding: 7px 14px; font-size: 14px; }
+.btn[disabled] { font: inherit; font-weight: 600; font-size: 15px; cursor: default; opacity: .55; transform: none; }
+button.btn { background: transparent; color: var(--text); }
+button.btn.primary { background: var(--text); color: #0b0b0d; }
 .btn svg { width: 17px; height: 17px; }
 
 /* hero */
@@ -211,7 +214,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
   .btn { transition: none; }
 }
 </style>
-</head>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="c5b8f3b9-dc89-4e42-afc2-06ee72310179"></script></head>
 <body>
 
 <nav class="top">
@@ -225,7 +228,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
       <a href="#security">Security</a>
       <a href="#faq">FAQ</a>
     </div>
-    <a class="btn primary small" href="https://dwd.radut.dev/ac.dmg" data-dl="mac">
+    <a class="btn primary small" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>Download
     </a>
   </div>
@@ -237,13 +240,11 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
     <h1>Your two-factor codes,<br>one tap or keystroke away.</h1>
     <p class="lede">rAuthenticator puts your Google Authenticator accounts on your Mac, iPhone and iPad without taking them off the old phone. On the Mac, type a few letters and press Return. On the iPhone, tap. The code is copied.</p>
     <div class="cta">
-      <a class="btn primary" href="https://dwd.radut.dev/ac.dmg" data-dl="mac">
+      <a class="btn primary" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9s-2-.9-3.4-.9c-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.5-.7.8-1.2 2-1.1 3.1 1.2.1 2.4-.6 3.1-1.4Z"/></svg>
         Download for Mac
       </a>
-      <a class="btn" href="#iphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Get it for iPhone &amp; iPad</a>
-      <a class="btn" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-amd64.deb" data-dl="deb" hidden>Linux .deb</a>
-      <a class="btn" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage" data-dl="appimage" hidden>Linux AppImage</a>
+      <a class="btn" href="#iphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>iPhone &amp; iPad</a>
     </div>
     <p class="fine">macOS 14 or newer · iOS and iPadOS 17 or newer · No account, no cloud, no tracking</p>
 
@@ -312,7 +313,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
           <li>Codes stay on this Mac's clipboard and vanish after a minute</li>
         </ul>
         <div class="app-cta">
-          <a class="btn primary" href="https://dwd.radut.dev/ac.dmg" data-dl="mac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>Download for Mac</a>
+          <a class="btn primary" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>Download for Mac</a>
           <span class="fine">macOS 14+ · free</span>
         </div>
       </div>
@@ -327,8 +328,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
           <li>Swipe to edit or delete, long-press for more</li>
         </ul>
         <div class="app-cta">
-          <a class="btn primary" href="#iphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Get it on TestFlight</a>
-          <span class="fine">iOS &amp; iPadOS 17+ · beta by invitation</span>
+          <button type="button" class="btn primary" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Coming soon</button>
+          <span class="fine">iOS &amp; iPadOS 17+</span>
         </div>
       </div>
     </div>
@@ -464,7 +465,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
     <div class="testflight">
       <div>
         <h3>Get the iPhone and iPad app</h3>
-        <p>It is in beta on TestFlight. Ask for an invitation, install Apple's TestFlight app, and open the invitation on the iPhone or iPad. Developers can also build it from the source with Xcode, for free.</p>
+        <p>Coming soon.</p>
       </div>
       <span class="badge">iOS &amp; iPadOS 17+</span>
     </div>
@@ -535,17 +536,15 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
     <h2>Get rAuthenticator</h2>
     <p class="sub" style="margin: 0 auto 30px">Free. For macOS 14, iOS 17 and iPadOS 17 or newer.</p>
     <div class="cta">
-      <a class="btn primary" href="https://dwd.radut.dev/ac.dmg" data-dl="mac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>Download for Mac</a>
-      <a class="btn" href="#iphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>iPhone &amp; iPad on TestFlight</a>
-      <a class="btn" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-amd64.deb" data-dl="deb" hidden>Linux .deb</a>
-      <a class="btn" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage" data-dl="appimage" hidden>Linux AppImage</a>
+      <a class="btn primary" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>Download for Mac</a>
+      <button type="button" class="btn" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>iPhone &amp; iPad: coming soon</button>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <span>rAuthenticator</span>
+    <span>rAuthenticator · <a href="privacy">Privacy</a> · <a href="support">Support</a></span>
     <span>Not affiliated with Google. Google Authenticator is a trademark of Google LLC.</span>
   </div>
 </footer>
@@ -579,28 +578,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll('video[autoplay]').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); v.controls = true; });
   }
-})();
-</script>
-<script>
-// Download links follow the latest GitHub release (packaging/github/publish-release.sh): the Mac buttons switch to its
-// version-less DMG once a release carries one, the Linux buttons appear only when the release has a .deb / AppImage.
-// Without the API (offline, rate limit) the page keeps its static links and the Linux buttons stay hidden.
-(() => {
-  const base = 'https://github.com/radut/rauthenticator/releases/latest/download/';
-  const kinds = { mac: /\.dmg$/, deb: /amd64\.deb$/, appimage: /x86_64\.AppImage$/ };
-  fetch('https://api.github.com/repos/radut/rauthenticator/releases/latest', { headers: { Accept: 'application/vnd.github+json' } })
-    .then((r) => (r.ok ? r.json() : null))
-    .then((rel) => {
-      if (!rel || !Array.isArray(rel.assets)) return;
-      const version = String(rel.tag_name || '').replace(/^v/, '');
-      const names = rel.assets.map((a) => a.name).filter((n) => version && !n.includes(version));
-      Object.entries(kinds).forEach(([kind, re]) => {
-        const file = names.find((n) => re.test(n));
-        if (!file) return;
-        document.querySelectorAll(`[data-dl="${kind}"]`).forEach((a) => { a.href = base + encodeURIComponent(file); a.hidden = false; });
-      });
-    })
-    .catch(() => {});
 })();
 </script>
 </body>

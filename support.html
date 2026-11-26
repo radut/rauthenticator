@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rAuthenticator · support</title>
+<meta name="description" content="Help for rAuthenticator on iPhone, iPad and Mac: moving accounts in, which codes work, permissions, and how to get in touch.">
+<link rel="canonical" href="https://radut.github.io/rauthenticator/support.html">
+<link rel="icon" type="image/png" href="assets/icon.png">
+<style>
+:root { --bg: #09090b; --line: #24242a; --text: #f4f4f5; --muted: #a1a1aa; --faint: #71717a; --accent: #3b82f6;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: #93c5fd; }
+.wrap { width: min(760px, 100% - 32px); margin-inline: auto; }
+nav.top { border-bottom: 1px solid var(--line); }
+nav.top .wrap { display: flex; align-items: center; gap: 22px; height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 650; text-decoration: none; color: var(--text); margin-right: auto; }
+.brand img { width: 28px; height: 28px; border-radius: 7px; }
+nav.top a.link { color: var(--muted); text-decoration: none; font-size: 15px; }
+main { padding: 48px 0 64px; }
+h1 { font-size: clamp(28px, 4vw, 40px); letter-spacing: -.02em; margin: 0 0 8px; }
+h2 { font-size: 21px; margin: 34px 0 8px; }
+p, li { color: var(--muted); }
+li { margin: 6px 0; }
+b { color: var(--text); font-weight: 600; }
+footer { border-top: 1px solid var(--line); color: var(--faint); font-size: 14px; padding: 28px 0 40px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+</style>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="c5b8f3b9-dc89-4e42-afc2-06ee72310179"></script></head>
+<body>
+<nav class="top"><div class="wrap"><a class="brand" href="./"><img src="assets/icon.png" alt="" width="28" height="28">rAuthenticator</a><a class="link" href="support">Support</a><a class="link" href="privacy">Privacy</a></div></nav>
+<main class="wrap">
+<h1>Support</h1>
+<p>Help for rAuthenticator on iPhone, iPad and Mac.</p>
+
+<h2>Get in touch</h2>
+<p>Report a problem or ask a question on <a href="https://github.com/radut/rauthenticator/issues">GitHub Issues</a>
+(a free GitHub account is needed to post). Please say which device, which system version and which app version you
+use (on iPhone and iPad: Settings in the app shows it). Never post a QR code, setup key or code: anyone who sees one
+can generate your codes.</p>
+
+<h2>Moving accounts in</h2>
+<ul>
+<li><b>From Google Authenticator:</b> on the phone, open Google Authenticator, then ☰ → Transfer accounts → Export
+accounts, and pick all accounts or a few. Scan the codes it shows with rAuthenticator (+ → Scan). The phone keeps
+its accounts.</li>
+<li><b>From a service's own QR code:</b> scan it with the camera, from a photo or screenshot, or on the Mac from the
+screen.</li>
+<li><b>By setup key:</b> + → Enter Setup Key, and type the key the service shows next to its QR code.</li>
+<li><b>Between your devices:</b> Export All on one shows transfer QR codes; scan them on the other.</li>
+</ul>
+
+<h2>Questions</h2>
+<ul>
+<li><b>Which codes work?</b> Time-based (TOTP) and counter-based (HOTP), SHA-1, SHA-256 and SHA-512, 6 to 8 digits,
+any period. The transfer format cannot carry 7-digit codes or periods other than 30 seconds; those export one by
+one instead.</li>
+<li><b>Why does it ask for the camera or Screen Recording?</b> Only the scanners use them, only while you scan,
+and nothing leaves the device.</li>
+<li><b>I scanned the same codes twice.</b> Accounts you already have are skipped, even after you renamed them.</li>
+<li><b>How do I remove everything?</b> Delete the app. On the Mac, also delete its two items in Keychain Access
+(search for "authenticator").</li>
+<li><b>Is my data sent anywhere?</b> No. See the <a href="privacy">privacy policy</a>.</li>
+</ul>
+</main>
+<footer>
+  <div class="wrap">
+    <span>rAuthenticator · <a href="privacy">Privacy</a> · <a href="support">Support</a></span>
+    <span>Not affiliated with Google. Google Authenticator is a trademark of Google LLC.</span>
+  </div>
+</footer>
+</body>
+</html>
