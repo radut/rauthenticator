@@ -182,7 +182,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
 
 
 /* two apps */
-.apps { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 44px; }
+.apps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 44px; }
 .app-card { border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(180deg, #15151b, var(--bg-card)); padding: 28px; display: flex; flex-direction: column; }
 .app-card .icon { width: 44px; height: 44px; border-radius: 11px; display: grid; place-items: center; background: var(--accent-soft); color: #93c5fd; margin-bottom: 16px; }
 .app-card .icon svg { width: 23px; height: 23px; }
@@ -236,17 +236,18 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
 
 <header class="hero">
   <div class="wrap">
-    <a class="pill" href="#apps"><b>New</b>One authenticator for Mac, iPhone and iPad →</a>
+    <a class="pill" href="#apps"><b>New</b>Now on Linux too: .deb and AppImage →</a>
     <h1>Your two-factor codes,<br>one tap or keystroke away.</h1>
-    <p class="lede">rAuthenticator puts your Google Authenticator accounts on your Mac, iPhone and iPad without taking them off the old phone. On the Mac, type a few letters and press Return. On the iPhone, tap. The code is copied.</p>
+    <p class="lede">rAuthenticator puts your Google Authenticator accounts on your Mac, Linux PC, iPhone and iPad without taking them off the old phone. On a computer, type a few letters and press Return. On the iPhone, tap. The code is copied.</p>
     <div class="cta">
       <a class="btn primary" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9s-2-.9-3.4-.9c-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.5-.7.8-1.2 2-1.1 3.1 1.2.1 2.4-.6 3.1-1.4Z"/></svg>
         Download for Mac
       </a>
+      <a class="btn" href="#linux-app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M7 9l3 2-3 2M12 13h4M8 21h8"/></svg>Download for Linux</a>
       <a class="btn" href="#iphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>iPhone &amp; iPad</a>
     </div>
-    <p class="fine">macOS 14 or newer · iOS and iPadOS 17 or newer · No account, no cloud, no tracking</p>
+    <p class="fine">macOS 14 or newer · Ubuntu 24.04 or newer (x86_64) · iOS and iPadOS 17 or newer · No account, no cloud, no tracking</p>
 
     <div class="showcase">
       <div class="tabs" role="tablist" aria-label="What it does">
@@ -297,9 +298,9 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
 <section id="apps">
   <div class="wrap">
     <div class="center">
-      <div class="eyebrow">Two apps, one authenticator</div>
+      <div class="eyebrow">Three apps, one authenticator</div>
       <h2>At your desk and in your pocket.</h2>
-      <p class="sub">The same codes, the same QR formats and the same lock on both, built from one Swift codebase. Each device keeps its own list, and moving accounts between them takes one scan.</p>
+      <p class="sub">The same codes, the same QR formats and the same lock everywhere, built from one Swift codebase. Each device keeps its own list, and moving accounts between them takes one scan.</p>
     </div>
     <div class="apps">
       <div class="app-card">
@@ -315,6 +316,22 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
         <div class="app-cta">
           <a class="btn primary" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>Download for Mac</a>
           <span class="fine">macOS 14+ · free</span>
+        </div>
+      </div>
+      <div class="app-card" id="linux-app">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M7 9l3 2-3 2M12 13h4M8 21h8"/></svg></div>
+        <h3>rAuthenticator for Linux</h3>
+        <p class="muted">The Mac app's keyboard flow, on GNOME and KDE. <kbd>Ctrl</kbd> where the Mac has <kbd>⌘</kbd>.</p>
+        <ul>
+          <li>Type-to-search in the window, <kbd>↩</kbd> copies the only match</li>
+          <li>Read QR codes from the whole screen or a region (your desktop's screenshot picker), an image, paste or drop; or type a setup key</li>
+          <li>Lock with your login password or fingerprint (polkit, .deb) or an app passphrase (AppImage)</li>
+          <li>Accounts in your desktop keyring (Secret Service); copied codes vanish after a minute</li>
+        </ul>
+        <div class="app-cta">
+          <a class="btn primary" href="https://github.com/radut/rauthenticator/releases/latest/download/rauthenticator_amd64.deb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>.deb</a>
+          <a class="btn" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>AppImage</a>
+          <span class="fine">Ubuntu 24.04+ · x86_64 · free</span>
         </div>
       </div>
       <div class="app-card">
@@ -534,9 +551,11 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
   <div class="wrap">
     <img src="assets/icon.png" alt="rAuthenticator icon" width="96" height="96">
     <h2>Get rAuthenticator</h2>
-    <p class="sub" style="margin: 0 auto 30px">Free. For macOS 14, iOS 17 and iPadOS 17 or newer.</p>
+    <p class="sub" style="margin: 0 auto 30px">Free. For macOS 14, Ubuntu 24.04, iOS 17 and iPadOS 17 or newer.</p>
     <div class="cta">
       <a class="btn primary" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>Download for Mac</a>
+      <a class="btn" href="https://github.com/radut/rauthenticator/releases/latest/download/rauthenticator_amd64.deb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>Linux .deb</a>
+      <a class="btn" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>AppImage</a>
       <button type="button" class="btn" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>iPhone &amp; iPad: coming soon</button>
     </div>
   </div>

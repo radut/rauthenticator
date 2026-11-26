@@ -36,7 +36,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
 <p>Last updated: 26 November 2026.</p>
 
 <h2>The apps</h2>
-<p>This policy covers rAuthenticator for iPhone, iPad and Mac. <b>The apps do not collect any data.</b></p>
+<p>This policy covers rAuthenticator for iPhone, iPad, Mac and Linux. <b>The apps do not collect any data.</b></p>
+<p>On Linux the accounts are stored in your desktop keyring through the Secret Service (GNOME Keyring, KWallet or KeePassXC). The app lock uses polkit (your login password or fingerprint) in the .deb, or a passphrase whose salted hash is kept in that keyring in the AppImage. Screen scans go through your desktop's screenshot portal, and the screenshot is deleted as soon as it has been read. Nothing is sent anywhere.</p>
 <ul>
 <li><b>No account, no server.</b> There is no sign-in, and the apps make no network connections: no analytics, no
 crash reporting, no advertising, no update checks, no cloud backup. They contain no third-party code.</li>
