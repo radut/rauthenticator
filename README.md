@@ -8,10 +8,12 @@
   <b>without removing them from the phone</b>, then type a few letters, press Return and paste.
 </p>
 <p align="center">
-  <a href="https://dwd.radut.dev/ac.dmg"><b>Download for Mac</b></a> ·
+  <a href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg"><b>Download for Mac</b></a> ·
   <a href="https://radut.github.io/rauthenticator/#iphone"><b>iPhone &amp; iPad</b></a> ·
-  <a href="https://authenticator.radut.dev">Website</a> ·
+  <a href="https://radut.github.io/rauthenticator/">Website</a> ·
   <a href="#keyboard">Keyboard</a> ·
+  <a href="#install">Install</a> ·
+  <a href="#faq">FAQ</a> ·
   macOS 14, iOS and iPadOS 17 or newer
 </p>
 
@@ -31,7 +33,7 @@ accounts between them is one scan (**Export All** on one, the scanner on the oth
 | Google Authenticator transfers | yes, multi-code included | yes, multi-code included |
 | Lock | Touch ID or password: launch, sleep, idle, <kbd>⌘</kbd><kbd>L</kbd> | Face ID / Touch ID / passcode; the app switcher shows no codes |
 | Export | one account as QR, everything as transfer codes | one account as QR, everything as transfer codes |
-| Get it | [DMG download](https://dwd.radut.dev/ac.dmg), macOS 14+ | TestFlight beta (invitation), or build it with Xcode, iOS / iPadOS 17+ |
+| Get it | [DMG download](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg), macOS 14+ | Coming soon, iOS / iPadOS 17+ |
 
 <a id="keyboard"></a>
 ## Keyboard
@@ -67,9 +69,41 @@ the next thing you type starts over. **Esc** clears it by hand. Then switch back
 </p>
 
 The list, one account as a QR code, everything as Google Authenticator transfer codes, a typed setup key, editing,
-and the settings; then the iPad. All pictures come from throwaway simulators with made-up accounts, and the codes,
-QR codes and setup keys are blurred anyway:
-`make screenshots` on the Mac, then `make screenshots-finish` (see [Screenshots](#screenshots)).
+and the settings; then the iPad. All pictures use made-up accounts, with the codes, QR codes and setup keys blurred.
+
+## Install
+
+| Platform | How | Requires |
+|---|---|---|
+| **Mac** | [Download the DMG](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg), open it, drag **rAuthenticator** onto **Applications**. The first launch is blocked because the app is not notarized: open it once, then System Settings → Privacy & Security → **Open Anyway** (macOS 14: right-click → Open). | macOS 14 or newer, Apple silicon or Intel |
+| **iPhone & iPad** | Coming soon. | iOS / iPadOS 17 or newer |
+
+### From your phone to your Mac in two minutes
+
+Your phone keeps its accounts: Google Authenticator's export only shows them.
+
+1. In Google Authenticator on the phone: **☰ → Transfer accounts → Export accounts**, and pick all accounts or a few.
+2. In rAuthenticator: **+ → Scan with Camera…** and hold the phone up (on the iPhone: **+ → Scan QR Code**), or on
+   the Mac mirror the phone and use the viewfinder.
+3. Keep scanning until the banner says all codes are in. From then on, switch to the app and just start typing.
+
+## Security at a glance
+
+Boring, on purpose: no server, no account, no sync service, no third-party code.
+
+- **In your Keychain.** Secrets live in the login Keychain, never in plain files. The previous list is kept too, so
+  one bad edit can be undone.
+- **A careful clipboard.** Copied codes stay on this device (no Universal Clipboard), are flagged so clipboard
+  managers skip them, and vanish after 60 seconds.
+- **Export asks first.** A setup key is as sensitive as a password, so showing one or exporting everything needs Touch
+  ID, Face ID or the device password.
+- **Hide and lock.** Blur the codes for screen sharing; lock with Touch ID / Face ID on launch, sleep, idle or
+  <kbd>⌘</kbd><kbd>L</kbd>.
+- **Never online.** The apps make no network connections at all: no analytics, no update checks, no cloud backup.
+- **Native and small.** SwiftUI, about 2.5 MB to download, tested against the RFC 4226/6238 vectors and Google's
+  transfer format.
+
+The details are in [Security notes](#security-notes).
 
 ## Features
 
@@ -144,6 +178,27 @@ reopened after the first grant).
   afterwards if other people's windows were on screen.
 - Google's transfer format can't carry 7-digit codes or periods other than 30 s; such accounts are
   left out of "Export All" (the sheet says which) and can be shown individually instead.
+
+## FAQ
+
+**Does my phone lose its accounts?** No. Google Authenticator's export only shows QR codes; the accounts stay on the
+phone. You end up with the same codes on both.
+
+**macOS says the app can't be opened.** The download is not notarized. On macOS 15 or newer, open it once, then System
+Settings → Privacy & Security → **Open Anyway**. On macOS 14: right-click the app → Open.
+
+**Why does it ask for Screen Recording or Camera?** Only the scanners need them: the viewfinder, screen and region scans
+read your screen, the camera scan reads the camera. Nothing else uses them, and nothing leaves the Mac.
+
+**Can I move accounts between the Mac and the iPhone?** Yes, the same way as from Google Authenticator: **Export All**
+on one shows transfer QR codes, the scanner on the other reads them.
+
+**Which codes work?** Time-based (TOTP) and counter-based (HOTP), SHA-1, SHA-256 and SHA-512, 6 to 8 digits, any
+period. Google's transfer format can't carry 7-digit codes or periods other than 30 s; those export one by one instead.
+
+**How do I wipe it?** Delete the app's two items in Keychain Access (search for "authenticator"), then the app.
+
+Not affiliated with Google. Google Authenticator is a trademark of Google LLC.
 
 ## Downloads
 
