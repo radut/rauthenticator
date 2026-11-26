@@ -4,36 +4,39 @@
 <h1 align="center">rAuthenticator</h1>
 <p align="center">
   <b>Your two-factor codes, one keystroke away.</b><br>
-  A native Mac and iPhone companion to Google Authenticator. Copy your accounts from the phone to the Mac
+  A native Mac, iPhone and Linux companion to Google Authenticator. Copy your accounts from the phone to the computer
   <b>without removing them from the phone</b>, then type a few letters, press Return and paste.
 </p>
 <p align="center">
   <a href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg"><b>Download for Mac</b></a> ·
   <a href="https://radut.github.io/rauthenticator/#iphone"><b>iPhone &amp; iPad</b></a> ·
+  <a href="https://github.com/radut/rauthenticator/releases/latest/download/rauthenticator_amd64.deb"><b>Linux .deb</b></a> ·
+  <a href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage"><b>AppImage</b></a> ·
   <a href="https://radut.github.io/rauthenticator/">Website</a> ·
   <a href="#keyboard">Keyboard</a> ·
   <a href="#install">Install</a> ·
   <a href="#faq">FAQ</a> ·
-  macOS 14, iOS and iPadOS 17 or newer
+  macOS 14, iOS and iPadOS 17, Ubuntu 24.04 (or any distro with GTK 4.14 and libadwaita 1.5) or newer
 </p>
 
 <p align="center">
   <img src="https://radut.github.io/rauthenticator/screenshots/ios-search.gif" width="300" alt="Typing acm narrows the list to Acme Cloud; a tap copies its code">
 </p>
 
-## Two apps, one authenticator
+## Three apps, one authenticator
 
-The same codes, QR formats and app lock on both, from one Swift codebase. Each device keeps its own list; moving
-accounts between them is one scan (**Export All** on one, the scanner on the other).
+The same codes, QR formats and app lock everywhere, from one Swift codebase (`AuthenticatorCore` holds the logic all
+three share). Each device keeps its own list; moving accounts between them is one scan (**Export All** on one, the
+scanner on the other).
 
-| | **rAuthenticator for Mac** | **rAuthenticator for iPhone & iPad** |
-|---|---|---|
-| Copy a code | type a few letters, <kbd>Return</kbd> | tap the account |
-| Get accounts in | viewfinder, whole screen, screen region, camera, image, paste, drop, setup key | camera, photo, setup key |
-| Google Authenticator transfers | yes, multi-code included | yes, multi-code included |
-| Lock | Touch ID or password: launch, sleep, idle, <kbd>⌘</kbd><kbd>L</kbd> | Face ID / Touch ID / passcode; the app switcher shows no codes |
-| Export | one account as QR, everything as transfer codes | one account as QR, everything as transfer codes |
-| Get it | [DMG download](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg), macOS 14+ | Coming soon, iOS / iPadOS 17+ |
+| | **rAuthenticator for Mac** | **rAuthenticator for iPhone & iPad** | **rAuthenticator for Linux** |
+|---|---|---|---|
+| Copy a code | type a few letters, <kbd>Return</kbd> | tap the account | type a few letters, <kbd>Return</kbd> |
+| Get accounts in | viewfinder, whole screen, screen region, camera, image, paste, drop, setup key | camera, photo, setup key | whole screen, screen region, image, paste, drop, setup key |
+| Google Authenticator transfers | yes, multi-code included | yes, multi-code included | yes, multi-code included |
+| Lock | Touch ID or password: launch, sleep, idle, <kbd>⌘</kbd><kbd>L</kbd> | Face ID / Touch ID / passcode; the app switcher shows no codes | login password or fingerprint (polkit), or an app passphrase (AppImage): launch, session lock, sleep, idle (GNOME), <kbd>Ctrl</kbd><kbd>L</kbd> |
+| Export | one account as QR, everything as transfer codes | one account as QR, everything as transfer codes | one account as QR, everything as transfer codes |
+| Get it | [DMG download](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg), macOS 14+ | Coming soon, iOS / iPadOS 17+ | [.deb](https://github.com/radut/rauthenticator/releases/latest/download/rauthenticator_amd64.deb) (Ubuntu 24.04 or newer) or [AppImage](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage), x86_64 |
 
 <a id="keyboard"></a>
 ## Keyboard
@@ -41,6 +44,8 @@ accounts between them is one scan (**Export All** on one, the scanner on the oth
 On the Mac there is no search box to click: switch to the app and type. The list narrows to the accounts whose
 issuer or name contain every word you typed; once one is left, **Return** copies its code and clears the search, so
 the next thing you type starts over. **Esc** clears it by hand. Then switch back and paste.
+On Linux every shortcut is the same with <kbd>Ctrl</kbd> instead of <kbd>⌘</kbd> (Settings: <kbd>Ctrl</kbd><kbd>,</kbd>);
+the viewfinder and the camera are not there yet.
 
 | Action | Keys | | Action | Keys |
 |---|---|---|---|---|
@@ -77,6 +82,7 @@ and the settings; then the iPad. All pictures use made-up accounts, with the cod
 |---|---|---|
 | **Mac** | [Download the DMG](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg), open it, drag **rAuthenticator** onto **Applications**. The first launch is blocked because the app is not notarized: open it once, then System Settings → Privacy & Security → **Open Anyway** (macOS 14: right-click → Open). | macOS 14 or newer, Apple silicon or Intel |
 | **iPhone & iPad** | Coming soon. | iOS / iPadOS 17 or newer |
+| **Linux** | [.deb](https://github.com/radut/rauthenticator/releases/latest/download/rauthenticator_amd64.deb): `sudo apt install ./rauthenticator_amd64.deb` (pulls in GTK 4, libadwaita, libsecret, zbar, qrencode; the app lock uses polkit). [AppImage](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage): `chmod +x`, then run it (everything bundled; the app lock uses a passphrase). | Ubuntu 24.04 or newer (glibc 2.39+), x86_64 |
 
 ### From your phone to your Mac in two minutes
 
