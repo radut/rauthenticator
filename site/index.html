@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rAuthenticator — two-factor codes on your Mac, iPhone and iPad</title>
+<meta name="description" content="rAuthenticator is a native authenticator for Mac, iPhone and iPad. Bring your Google Authenticator accounts over without removing them from your phone, then type or tap to copy a code.">
+<meta property="og:title" content="rAuthenticator">
+<meta property="og:description" content="Your two-factor codes, one tap or keystroke away. A native authenticator for Mac, iPhone and iPad that imports Google Authenticator accounts.">
+<meta property="og:image" content="assets/ios-list.webp">
+<meta name="theme-color" content="#09090b">
+<link rel="icon" type="image/png" href="assets/icon.png">
+<link rel="apple-touch-icon" href="assets/icon.png">
+<style>
+[hidden] { display: none !important; }
+:root {
+  --bg: #09090b;
+  --bg-raised: #111114;
+  --bg-card: #141418;
+  --line: #24242a;
+  --line-strong: #34343c;
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
+  --faint: #71717a;
+  --accent: #3b82f6;
+  --accent-soft: rgba(59, 130, 246, .14);
+  --green: #22c55e;
+  --radius: 14px;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--text); font-family: var(--font);
+  font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+}
+img, video { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+.wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+
+/* nav */
+nav.top {
+  position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--line);
+  background: rgba(9, 9, 11, .78); backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px);
+}
+nav.top .wrap { display: flex; align-items: center; gap: 28px; height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 650; text-decoration: none; letter-spacing: -.01em; }
+.brand img { width: 28px; height: 28px; border-radius: 7px; }
+nav.top .links { display: flex; gap: 22px; margin-right: auto; }
+nav.top .links a { color: var(--muted); text-decoration: none; font-size: 15px; }
+nav.top .links a:hover { color: var(--text); }
+
+/* buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px; padding: 11px 20px; border-radius: 10px;
+  font-weight: 600; font-size: 15px; text-decoration: none; border: 1px solid var(--line-strong);
+  transition: transform .15s ease, background .15s ease, border-color .15s ease;
+}
+.btn:hover { transform: translateY(-1px); border-color: #4a4a55; }
+.btn.primary { background: var(--text); color: #0b0b0d; border-color: var(--text); }
+.btn.primary:hover { background: #fff; }
+.btn.small { padding: 7px 14px; font-size: 14px; }
+.btn svg { width: 17px; height: 17px; }
+
+/* hero */
+.hero { text-align: center; padding: 88px 0 40px; position: relative; }
+.hero::before {
+  content: ""; position: absolute; inset: -60px 0 auto; height: 520px; z-index: -1; pointer-events: none;
+  background: radial-gradient(600px 300px at 50% 30%, rgba(59, 130, 246, .20), transparent 70%);
+}
+.pill {
+  display: inline-flex; align-items: center; gap: 10px; padding: 5px 14px 5px 6px; border: 1px solid var(--line-strong);
+  border-radius: 999px; color: var(--muted); font-size: 14px; text-decoration: none; background: var(--bg-raised);
+}
+.pill b { background: var(--accent-soft); color: #93c5fd; border-radius: 999px; padding: 2px 10px; font-weight: 600; font-size: 13px; }
+h1 { font-size: clamp(40px, 7vw, 76px); line-height: 1.04; letter-spacing: -.035em; margin: 26px auto 20px; max-width: 900px; font-weight: 700; }
+.lede { color: var(--muted); font-size: clamp(17px, 2.1vw, 20px); max-width: 680px; margin: 0 auto 34px; }
+.cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.fine { color: var(--faint); font-size: 14px; margin-top: 16px; }
+
+/* showcase */
+.showcase { margin: 46px auto 0; }
+.tabs {
+  display: flex; gap: 4px; padding: 5px; margin: 0 auto 22px; width: fit-content; max-width: 100%;
+  border: 1px solid var(--line); border-radius: 12px; background: var(--bg-raised); overflow-x: auto; scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tabs button {
+  appearance: none; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 14.5px;
+  padding: 8px 16px; border-radius: 8px; cursor: pointer; white-space: nowrap;
+}
+.tabs button[aria-selected="true"] { background: #1f1f25; color: var(--text); }
+.stage {
+  display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 40px; align-items: center;
+  border: 1px solid var(--line); border-radius: 20px; background: var(--bg); padding: 26px 40px; text-align: left;
+}
+.stage .media { display: grid; place-items: center; }
+.stage .media > * { max-height: 640px; width: auto; }
+.stage.wide { grid-template-columns: 1fr; }
+.stage.wide .media > * { max-height: none; width: 100%; }
+.stage .copy h3 { font-size: 24px; letter-spacing: -.02em; margin: 0 0 10px; }
+.stage .copy p { color: var(--muted); margin: 0 0 18px; }
+.panel[hidden] { display: none; }
+
+/* sections */
+section { padding: 96px 0 0; }
+.eyebrow { color: #93c5fd; font-weight: 600; font-size: 14px; letter-spacing: .02em; }
+h2 { font-size: clamp(30px, 4.4vw, 46px); letter-spacing: -.03em; line-height: 1.1; margin: 10px 0 14px; }
+.sub { color: var(--muted); max-width: 640px; font-size: 18px; margin: 0; }
+.center { text-align: center; }
+.center .sub { margin-inline: auto; }
+
+/* keyboard */
+kbd {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 30px; padding: 0 8px;
+  font: 600 14px var(--font); color: var(--text); background: linear-gradient(#26262d, #1b1b20);
+  border: 1px solid #3a3a44; border-bottom-width: 3px; border-radius: 7px;
+}
+.keys { display: inline-flex; gap: 5px; }
+.kb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 44px; }
+.kb-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-card); padding: 8px 22px; }
+.kb-card h3 { font-size: 15px; color: var(--muted); font-weight: 600; margin: 14px 0 6px; }
+.kb-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); }
+.kb-row:first-of-type { border-top: 0; }
+.kb-row span { color: #d4d4d8; }
+.kb-demo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }
+.step { border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; background: var(--bg-card); }
+.step .keys { margin-bottom: 14px; }
+.step h4 { margin: 0 0 6px; font-size: 17px; }
+.step p { margin: 0; color: var(--muted); font-size: 15px; }
+
+/* feature grid */
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 44px; }
+.card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-card); padding: 24px; }
+.card .icon {
+  width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; margin-bottom: 16px;
+  background: var(--accent-soft); color: #93c5fd;
+}
+.card .icon svg { width: 21px; height: 21px; }
+.card h3 { margin: 0 0 6px; font-size: 17px; letter-spacing: -.01em; }
+.card p { margin: 0; color: var(--muted); font-size: 15px; }
+.card .keys { margin-top: 14px; }
+
+/* phone */
+.phones { display: flex; gap: 22px; justify-content: safe center; margin-top: 46px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+.phones figure { margin: 0; flex: 0 0 auto; width: 200px; scroll-snap-align: center; text-align: center; }
+.phones figcaption { color: var(--faint); font-size: 14px; margin-top: 6px; }
+
+/* steps */
+.howto { counter-reset: step; display: grid; gap: 14px; margin-top: 40px; max-width: 760px; }
+.howto li {
+  list-style: none; position: relative; padding: 18px 22px 18px 66px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-card);
+}
+.howto li::before {
+  counter-increment: step; content: counter(step); position: absolute; left: 20px; top: 17px; width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--accent-soft); color: #93c5fd; font-weight: 700; font-size: 14px;
+}
+.howto li b { color: var(--text); }
+.howto li { color: var(--muted); }
+
+/* faq */
+.faq { max-width: 760px; margin: 40px auto 0; }
+details { border-top: 1px solid var(--line); padding: 18px 4px; }
+details:last-child { border-bottom: 1px solid var(--line); }
+summary { cursor: pointer; font-weight: 600; font-size: 17px; list-style: none; display: flex; justify-content: space-between; gap: 20px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; color: var(--faint); font-weight: 400; font-size: 22px; line-height: 1; }
+details[open] summary::after { content: "−"; }
+details p { color: var(--muted); margin: 12px 0 0; }
+code { font-family: var(--mono); font-size: .9em; background: #1c1c22; border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; }
+
+/* final */
+.final { text-align: center; padding: 110px 0 100px; }
+.final img { width: 96px; height: 96px; margin: 0 auto 22px; border-radius: 22px; box-shadow: 0 20px 60px rgba(59, 130, 246, .25); }
+footer { border-top: 1px solid var(--line); color: var(--faint); font-size: 14px; padding: 28px 0 40px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+
+
+/* two apps */
+.apps { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 44px; }
+.app-card { border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(180deg, #15151b, var(--bg-card)); padding: 28px; display: flex; flex-direction: column; }
+.app-card .icon { width: 44px; height: 44px; border-radius: 11px; display: grid; place-items: center; background: var(--accent-soft); color: #93c5fd; margin-bottom: 16px; }
+.app-card .icon svg { width: 23px; height: 23px; }
+.app-card h3 { font-size: 22px; letter-spacing: -.02em; margin: 0 0 6px; }
+.app-card .muted { color: var(--muted); margin: 0 0 14px; }
+.app-card ul { margin: 0 0 22px; padding-left: 20px; color: #d4d4d8; display: grid; gap: 8px; }
+.app-card .app-cta { margin-top: auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.app-card .app-cta .fine { margin: 0; }
+.ipad { margin: 40px auto 0; max-width: 560px; }
+.testflight { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin: 34px auto 0; max-width: 900px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-card); padding: 22px 26px; }
+.testflight h3 { margin: 0 0 6px; font-size: 18px; }
+.testflight p { margin: 0; color: var(--muted); font-size: 15px; }
+.badge { white-space: nowrap; border: 1px solid var(--line-strong); border-radius: 999px; padding: 5px 12px; color: var(--muted); font-size: 13px; }
+
+@media (max-width: 900px) {
+  .apps { grid-template-columns: 1fr; }
+  .testflight { flex-direction: column; align-items: flex-start; }
+  nav.top .links { display: none; }
+  nav.top .wrap { justify-content: space-between; }
+  .stage { grid-template-columns: 1fr; padding: 22px 18px; min-height: 0; gap: 18px; }
+  .stage .copy { text-align: center; }
+  .stage .media > * { max-height: 520px; }
+  .kb-grid, .kb-demo, .grid3 { grid-template-columns: 1fr; }
+  section { padding-top: 72px; }
+  .hero { padding-top: 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="#"><img src="assets/icon.png" alt="">rAuthenticator</a>
+    <div class="links">
+      <a href="#apps">Mac &amp; iPhone</a>
+      <a href="#keyboard">Keyboard</a>
+      <a href="#import">Import</a>
+      <a href="#iphone">iPhone &amp; iPad</a>
+      <a href="#security">Security</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="btn primary small" href="https://dwd.radut.dev/ac.dmg" data-dl="mac">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>Download
+    </a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <a class="pill" href="#apps"><b>New</b>One authenticator for Mac, iPhone and iPad →</a>
+    <h1>Your two-factor codes,<br>one tap or keystroke away.</h1>
+    <p class="lede">rAuthenticator puts your Google Authenticator accounts on your Mac, iPhone and iPad without taking them off the old phone. On the Mac, type a few letters and press Return. On the iPhone, tap. The code is copied.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://dwd.radut.dev/ac.dmg" data-dl="mac">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9s-2-.9-3.4-.9c-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.5-.7.8-1.2 2-1.1 3.1 1.2.1 2.4-.6 3.1-1.4Z"/></svg>
+        Download for Mac
+      </a>
+      <a class="btn" href="#iphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Get it for iPhone &amp; iPad</a>
+      <a class="btn" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-amd64.deb" data-dl="deb" hidden>Linux .deb</a>
+      <a class="btn" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage" data-dl="appimage" hidden>Linux AppImage</a>
+    </div>
+    <p class="fine">macOS 14 or newer · iOS and iPadOS 17 or newer · No account, no cloud, no tracking</p>
+
+    <div class="showcase">
+      <div class="tabs" role="tablist" aria-label="What it does">
+        <button role="tab" aria-selected="true" aria-controls="p-search" id="t-search">Type to search</button>
+        <button role="tab" aria-selected="false" aria-controls="p-export" id="t-export">Share as QR</button>
+        <button role="tab" aria-selected="false" aria-controls="p-all" id="t-all">Export all</button>
+        <button role="tab" aria-selected="false" aria-controls="p-ipad" id="t-ipad">iPad</button>
+      </div>
+
+      <div class="panel" id="p-search" role="tabpanel" aria-labelledby="t-search">
+        <div class="stage">
+          <div class="media">
+            <video src="assets/ios-search.mp4" poster="assets/ios-search-poster.webp" width="560" height="1300" autoplay muted loop playsinline aria-label="Typing acm narrows the list to Acme Cloud; a tap copies its code"></video>
+          </div>
+          <div class="copy">
+            <h3>Just start typing.</h3>
+            <p>Every letter narrows the list to the accounts whose issuer or name contain it. On the Mac there is no box to click: type in the window, <kbd>↩</kbd> copies the only match and <kbd>esc</kbd> starts over. On the phone, a tap copies. (Codes are blurred in these pictures.)</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="p-export" role="tabpanel" aria-labelledby="t-export" hidden>
+        <div class="stage">
+          <div class="media"><img src="assets/ios-export.webp" width="520" height="1130" loading="lazy" alt="One account shown as a QR code with its setup key"></div>
+          <div class="copy">
+            <h3>Take one anywhere.</h3>
+            <p>Show an account as a QR code and setup key, for any other authenticator app. It asks for Face ID or Touch ID first.</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="p-all" role="tabpanel" aria-labelledby="t-all" hidden>
+        <div class="stage">
+          <div class="media"><img src="assets/ios-exportAll.webp" width="520" height="1130" loading="lazy" alt="All accounts as Google Authenticator transfer codes"></div>
+          <div class="copy">
+            <h3>Or move them all.</h3>
+            <p>Export everything as Google Authenticator transfer codes, <span class="keys"><kbd>⇧</kbd><kbd>⌘</kbd><kbd>E</kbd></span> on the Mac. Scan them with the other device, or back into Google Authenticator.</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="p-ipad" role="tabpanel" aria-labelledby="t-ipad" hidden>
+        <div class="stage wide">
+          <div class="media"><img src="assets/ipad-list.webp" width="1400" height="1050" loading="lazy" alt="The list of codes on iPad"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="apps">
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">Two apps, one authenticator</div>
+      <h2>At your desk and in your pocket.</h2>
+      <p class="sub">The same codes, the same QR formats and the same lock on both, built from one Swift codebase. Each device keeps its own list, and moving accounts between them takes one scan.</p>
+    </div>
+    <div class="apps">
+      <div class="app-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg></div>
+        <h3>rAuthenticator for Mac</h3>
+        <p class="muted">Keyboard first. Switch to it, type, press Return, paste.</p>
+        <ul>
+          <li>Type-to-search in the window, <kbd>↩</kbd> copies the only match</li>
+          <li>Read QR codes from the screen, a region, a see-through viewfinder, a camera or an image</li>
+          <li>Touch ID lock on launch, sleep, idle or <kbd>⌘</kbd><kbd>L</kbd></li>
+          <li>Codes stay on this Mac's clipboard and vanish after a minute</li>
+        </ul>
+        <div class="app-cta">
+          <a class="btn primary" href="https://dwd.radut.dev/ac.dmg" data-dl="mac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>Download for Mac</a>
+          <span class="fine">macOS 14+ · free</span>
+        </div>
+      </div>
+      <div class="app-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
+        <h3>rAuthenticator for iPhone &amp; iPad</h3>
+        <p class="muted">Thumb first. Open it, tap the account, paste.</p>
+        <ul>
+          <li>Tap a row to copy its code, search from the bottom bar</li>
+          <li>Scan with the camera, from a photo, or type a setup key; multi-code Google transfers included</li>
+          <li>Face ID lock, and the app switcher shows no codes</li>
+          <li>Swipe to edit or delete, long-press for more</li>
+        </ul>
+        <div class="app-cta">
+          <a class="btn primary" href="#iphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Get it on TestFlight</a>
+          <span class="fine">iOS &amp; iPadOS 17+ · beta by invitation</span>
+        </div>
+      </div>
+    </div>
+    <p class="center fine" style="margin-top:22px">Between them: <b>Export All</b> on one device shows transfer QR codes, the scanner on the other reads them.</p>
+  </div>
+</section>
+
+<section id="keyboard">
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">Keyboard first</div>
+      <h2>Never touch the mouse.</h2>
+      <p class="sub">Switch to rAuthenticator, type, press Return, switch back and paste. Everything else has a shortcut too.</p>
+    </div>
+
+    <div class="kb-demo">
+      <div class="step">
+        <div class="keys"><kbd>A</kbd><kbd>C</kbd><kbd>M</kbd></div>
+        <h4>Type a few letters</h4>
+        <p>Anywhere in the window. Several words narrow further: <code>contoso ops</code>.</p>
+      </div>
+      <div class="step">
+        <div class="keys"><kbd>↩</kbd></div>
+        <h4>Return copies</h4>
+        <p>When one account is left, its current code goes to the clipboard and the search clears.</p>
+      </div>
+      <div class="step">
+        <div class="keys"><kbd>⌘</kbd><kbd>V</kbd></div>
+        <h4>Paste it</h4>
+        <p>The code is for this Mac only, hidden from clipboard managers and wiped after a minute.</p>
+      </div>
+    </div>
+
+    <div class="kb-grid">
+      <div class="kb-card">
+        <h3>The list</h3>
+        <div class="kb-row"><span>Search</span><span class="keys"><kbd>a</kbd>–<kbd>z</kbd></span></div>
+        <div class="kb-row"><span>Copy the only match</span><span class="keys"><kbd>↩</kbd></span></div>
+        <div class="kb-row"><span>Clear the search</span><span class="keys"><kbd>esc</kbd></span></div>
+        <div class="kb-row"><span>Hide / show codes</span><span class="keys"><kbd>⇧</kbd><kbd>⌘</kbd><kbd>H</kbd></span></div>
+        <div class="kb-row"><span>Lock now</span><span class="keys"><kbd>⌘</kbd><kbd>L</kbd></span></div>
+        <div class="kb-row"><span>Settings</span><span class="keys"><kbd>⌘</kbd><kbd>,</kbd></span></div>
+        <div class="kb-row"><span>Export all to Google Authenticator</span><span class="keys"><kbd>⇧</kbd><kbd>⌘</kbd><kbd>E</kbd></span></div>
+      </div>
+      <div class="kb-card">
+        <h3>Adding accounts</h3>
+        <div class="kb-row"><span>Scan with viewfinder</span><span class="keys"><kbd>⇧</kbd><kbd>⌘</kbd><kbd>F</kbd></span></div>
+        <div class="kb-row"><span>Scan the whole screen</span><span class="keys"><kbd>⇧</kbd><kbd>⌘</kbd><kbd>S</kbd></span></div>
+        <div class="kb-row"><span>Select a screen region</span><span class="keys"><kbd>⇧</kbd><kbd>⌘</kbd><kbd>R</kbd></span></div>
+        <div class="kb-row"><span>Scan with camera</span><span class="keys"><kbd>⇧</kbd><kbd>⌘</kbd><kbd>K</kbd></span></div>
+        <div class="kb-row"><span>Import QR image</span><span class="keys"><kbd>⌘</kbd><kbd>O</kbd></span></div>
+        <div class="kb-row"><span>Paste QR image</span><span class="keys"><kbd>⇧</kbd><kbd>⌘</kbd><kbd>V</kbd></span></div>
+        <div class="kb-row"><span>Enter setup key</span><span class="keys"><kbd>⌘</kbd><kbd>N</kbd></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="import">
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">Import</div>
+      <h2>Five ways to get a QR code in.</h2>
+      <p class="sub">Google Authenticator's "Transfer accounts" codes (all accounts or a selection, over several codes) and any service's own <code>otpauth://</code> code.</p>
+    </div>
+    <div class="grid3">
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/></svg></div>
+        <h3>Viewfinder</h3>
+        <p>A see-through window you drag over a code anywhere on screen. Only what is inside its frame is read.</p>
+        <div class="keys"><kbd>⇧</kbd><kbd>⌘</kbd><kbd>F</kbd></div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>Whole screen or a region</h3>
+        <p>Read every code on your displays (a mirrored phone, a video call), or draw a rectangle around one.</p>
+        <div class="keys"><kbd>⇧</kbd><kbd>⌘</kbd><kbd>S</kbd>&nbsp;<kbd>⇧</kbd><kbd>⌘</kbd><kbd>R</kbd></div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h2l2-2h4l2 2h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><circle cx="12" cy="12.5" r="3.5"/></svg></div>
+        <h3>Camera</h3>
+        <p>The built-in camera, a USB webcam, or your iPhone as Continuity Camera. Stays open for multi-code transfers.</p>
+        <div class="keys"><kbd>⇧</kbd><kbd>⌘</kbd><kbd>K</kbd></div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg></div>
+        <h3>Image, paste or drop</h3>
+        <p>Open a screenshot, paste one from the clipboard, or drop it onto the window.</p>
+        <div class="keys"><kbd>⌘</kbd><kbd>O</kbd>&nbsp;<kbd>⇧</kbd><kbd>⌘</kbd><kbd>V</kbd></div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg></div>
+        <h3>Setup key</h3>
+        <p>Type the key a service shows next to its QR code. TOTP or HOTP, SHA-1/256/512, 6–8 digits, any period.</p>
+        <div class="keys"><kbd>⌘</kbd><kbd>N</kbd></div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h3>Re-scan without worry</h3>
+        <p>A banner tracks "Received 1 of 3 QR codes". Accounts you already have are skipped, even after you renamed them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="howto">
+  <div class="wrap">
+    <div class="eyebrow">Two minutes</div>
+    <h2>From your phone to your Mac.</h2>
+    <p class="sub">Your phone keeps its accounts: exporting only shows them.</p>
+    <ol class="howto">
+      <li>In Google Authenticator on the phone: <b>☰ → Transfer accounts → Export accounts</b>, and pick all accounts or a few.</li>
+      <li>On the Mac, in rAuthenticator: <b>+ → Scan with Camera…</b> and hold the phone up, or mirror it and use the viewfinder.</li>
+      <li>Keep scanning until the banner says all codes are in. From then on, switch to the app and just start typing.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="iphone">
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">iPhone and iPad</div>
+      <h2>The same app in your pocket.</h2>
+      <p class="sub">Same codes, same formats, same lock. Scan with the camera or a photo, tap to copy, swipe to edit, export behind Face ID. On iPad, the whole list at a glance.</p>
+    </div>
+    <div class="phones">
+      <figure><img src="assets/ios-list.webp" width="520" height="1130" loading="lazy" alt="The list of codes on iPhone"><figcaption>Tap to copy</figcaption></figure>
+      <figure><img src="assets/ios-edit.webp" width="520" height="1130" loading="lazy" alt="Edit an account on iPhone"><figcaption>Edit</figcaption></figure>
+      <figure><img src="assets/ios-manual.webp" width="520" height="1130" loading="lazy" alt="Enter a setup key on iPhone"><figcaption>Enter a setup key</figcaption></figure>
+      <figure><img src="assets/ios-settings.webp" width="520" height="1130" loading="lazy" alt="Settings on iPhone"><figcaption>Face ID lock</figcaption></figure>
+    </div>
+    <div class="ipad"><img src="assets/ipad-list.webp" width="1400" height="1050" loading="lazy" alt="The list of codes on iPad"></div>
+    <div class="testflight">
+      <div>
+        <h3>Get the iPhone and iPad app</h3>
+        <p>It is in beta on TestFlight. Ask for an invitation, install Apple's TestFlight app, and open the invitation on the iPhone or iPad. Developers can also build it from the source with Xcode, for free.</p>
+      </div>
+      <span class="badge">iOS &amp; iPadOS 17+</span>
+    </div>
+  </div>
+</section>
+
+<section id="security">
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">Security</div>
+      <h2>Boring, on purpose.</h2>
+      <p class="sub">No server, no account, no sync service, no third-party code. Your secrets stay where macOS keeps passwords.</p>
+    </div>
+    <div class="grid3">
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <h3>In your Keychain</h3>
+        <p>Secrets live in the login Keychain, never in plain files. The previous list is kept too, so one bad edit can be undone.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/></svg></div>
+        <h3>A careful clipboard</h3>
+        <p>Copied codes stay on this Mac (no Universal Clipboard), are flagged so clipboard managers skip them, and vanish after 60 seconds.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6Z"/></svg></div>
+        <h3>Export asks first</h3>
+        <p>A setup key is as sensitive as a password, so showing one or exporting everything needs Touch ID or your password.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/></svg></div>
+        <h3>Hide and lock</h3>
+        <p>Blur the codes for screen sharing; lock with Touch ID on launch, sleep, idle or <kbd>⌘</kbd><kbd>L</kbd>.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M5.6 5.6l12.8 12.8"/></svg></div>
+        <h3>Never online</h3>
+        <p>The app makes no network connections at all: no analytics, no update checks, no cloud backup.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg></div>
+        <h3>Native and small</h3>
+        <p>SwiftUI on macOS 14+, about 2.5&nbsp;MB to download, tested against the RFC 4226/6238 vectors and Google's transfer format.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="center">
+      <h2>Questions</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Does my phone lose its accounts?</summary><p>No. Google Authenticator's export only shows QR codes; the accounts stay on the phone. You end up with the same codes on both.</p></details>
+      <details><summary>macOS says the app can't be opened.</summary><p>The download is not notarized. On macOS 15 or newer, open it once, then System Settings → Privacy &amp; Security → <b>Open Anyway</b>. On macOS 14: right-click the app → Open.</p></details>
+      <details><summary>Why does it ask for Screen Recording or Camera?</summary><p>Only the scanners need them: the viewfinder, screen and region scans read your screen, the camera scan reads the camera. Nothing else uses them, and nothing leaves the Mac.</p></details>
+      <details><summary>Can I move accounts between the Mac and the iPhone?</summary><p>Yes, the same way as from Google Authenticator: <b>Export All</b> on one shows transfer QR codes, the scanner on the other reads them.</p></details>
+      <details><summary>Which codes work?</summary><p>Time-based (TOTP) and counter-based (HOTP), SHA-1, SHA-256 and SHA-512, 6 to 8 digits, any period. Google's transfer format can't carry 7-digit codes or periods other than 30&nbsp;s; those export one by one instead.</p></details>
+      <details><summary>How do I wipe it?</summary><p>Delete the app's two items in Keychain Access (search for "authenticator"), then the app itself.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <img src="assets/icon.png" alt="rAuthenticator icon" width="96" height="96">
+    <h2>Get rAuthenticator</h2>
+    <p class="sub" style="margin: 0 auto 30px">Free. For macOS 14, iOS 17 and iPadOS 17 or newer.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://dwd.radut.dev/ac.dmg" data-dl="mac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg>Download for Mac</a>
+      <a class="btn" href="#iphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>iPhone &amp; iPad on TestFlight</a>
+      <a class="btn" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-amd64.deb" data-dl="deb" hidden>Linux .deb</a>
+      <a class="btn" href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage" data-dl="appimage" hidden>Linux AppImage</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>rAuthenticator</span>
+    <span>Not affiliated with Google. Google Authenticator is a trademark of Google LLC.</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.tabs [role="tab"]')];
+  const select = (tab) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls'));
+      panel.hidden = !on;
+      const video = panel.querySelector('video');
+      if (video) {
+        if (on) { video.currentTime = 0; video.play().catch(() => {}); } else { video.pause(); }
+      }
+    });
+  };
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => select(tab));
+    tab.addEventListener('keydown', (e) => {
+      const next = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!next) return;
+      const target = tabs[(i + next + tabs.length) % tabs.length];
+      target.focus();
+      select(target);
+    });
+  });
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video[autoplay]').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); v.controls = true; });
+  }
+})();
+</script>
+<script>
+// Download links follow the latest GitHub release: the Mac buttons switch to its DMG once a release carries one,
+// the Linux buttons appear only when the release has a .deb / AppImage. Without the API (offline, rate limit)
+// the page keeps its static links and the Linux buttons stay hidden.
+(() => {
+  const base = 'https://github.com/radut/rauthenticator/releases/latest/download/';
+  const want = { mac: 'rAuthenticator.dmg', deb: 'rAuthenticator-amd64.deb', appimage: 'rAuthenticator-x86_64.AppImage' };
+  fetch('https://api.github.com/repos/radut/rauthenticator/releases/latest', { headers: { Accept: 'application/vnd.github+json' } })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((rel) => {
+      if (!rel || !Array.isArray(rel.assets)) return;
+      const have = new Set(rel.assets.map((a) => a.name));
+      Object.entries(want).forEach(([kind, file]) => {
+        if (!have.has(file)) return;
+        document.querySelectorAll(`[data-dl="${kind}"]`).forEach((a) => { a.href = base + file; a.hidden = false; });
+      });
+    })
+    .catch(() => {});
+})();
+</script>
+</body>
+</html>
