@@ -80,7 +80,7 @@ and the settings; then the iPad. All pictures use made-up accounts, with the cod
 
 | Platform | How | Requires |
 |---|---|---|
-| **Mac** | [Download the DMG](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg), open it, drag **rAuthenticator** onto **Applications**. The first launch is blocked because the app is not notarized: open it once, then System Settings → Privacy & Security → **Open Anyway** (macOS 14: right-click → Open). | macOS 14 or newer, Apple silicon or Intel |
+| **Mac** | [Download the DMG](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg), open it, drag **rAuthenticator** onto **Applications**. Signed with Developer ID and notarized by Apple, so it opens like any other downloaded app. | macOS 14 or newer, Apple silicon or Intel |
 | **iPhone & iPad** | Coming soon. | iOS / iPadOS 17 or newer |
 | **Linux** | [.deb](https://github.com/radut/rauthenticator/releases/latest/download/rauthenticator_amd64.deb): `sudo apt install ./rauthenticator_amd64.deb` (pulls in GTK 4, libadwaita, libsecret, zbar, qrencode; the app lock uses polkit). [AppImage](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage): `chmod +x`, then run it (everything bundled; the app lock uses a passphrase). | Ubuntu 24.04 or newer (glibc 2.39+), x86_64 |
 
@@ -190,8 +190,8 @@ reopened after the first grant).
 **Does my phone lose its accounts?** No. Google Authenticator's export only shows QR codes; the accounts stay on the
 phone. You end up with the same codes on both.
 
-**macOS says the app can't be opened.** The download is not notarized. On macOS 15 or newer, open it once, then System
-Settings → Privacy & Security → **Open Anyway**. On macOS 14: right-click the app → Open.
+**Is the Mac download safe to open?** Yes: the DMG and the app are signed with a Developer ID and notarized by Apple,
+so macOS opens them without warnings. Download it only from the GitHub release.
 
 **Why does it ask for Screen Recording or Camera?** Only the scanners need them: the viewfinder, screen and region scans
 read your screen, the camera scan reads the camera. Nothing else uses them, and nothing leaves the Mac.
