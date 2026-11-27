@@ -8,10 +8,10 @@
   <b>without removing them from the phone</b>, then type a few letters, press Return and paste.
 </p>
 <p align="center">
-  <a href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg"><b>Download for Mac</b></a> ·
+  <a href="https://github.com/radut/rauthenticator/releases/download/v1.0.0/rAuthenticator-1.0.0.dmg"><b>Download for Mac</b></a> ·
   <a href="https://radut.github.io/rauthenticator/#iphone"><b>iPhone &amp; iPad</b></a> ·
-  <a href="https://github.com/radut/rauthenticator/releases/latest/download/rauthenticator_amd64.deb"><b>Linux .deb</b></a> ·
-  <a href="https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage"><b>AppImage</b></a> ·
+  <a href="https://github.com/radut/rauthenticator/releases/download/v1.0.0/rauthenticator_1.0.0_amd64.deb"><b>Linux .deb</b></a> ·
+  <a href="https://github.com/radut/rauthenticator/releases/download/v1.0.0/rAuthenticator-1.0.0-x86_64.AppImage"><b>AppImage</b></a> ·
   <a href="https://radut.github.io/rauthenticator/">Website</a> ·
   <a href="#keyboard">Keyboard</a> ·
   <a href="#install">Install</a> ·
@@ -36,7 +36,7 @@ scanner on the other).
 | Google Authenticator transfers | yes, multi-code included | yes, multi-code included | yes, multi-code included |
 | Lock | Touch ID or password: launch, sleep, idle, <kbd>⌘</kbd><kbd>L</kbd> | Face ID / Touch ID / passcode; the app switcher shows no codes | login password or fingerprint (polkit), or an app passphrase (AppImage): launch, session lock, sleep, idle (GNOME), <kbd>Ctrl</kbd><kbd>L</kbd> |
 | Export | one account as QR, everything as transfer codes | one account as QR, everything as transfer codes | one account as QR, everything as transfer codes |
-| Get it | [DMG download](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg), macOS 14+ | Coming soon, iOS / iPadOS 17+ | [.deb](https://github.com/radut/rauthenticator/releases/latest/download/rauthenticator_amd64.deb) (Ubuntu 24.04 or newer) or [AppImage](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage), x86_64 |
+| Get it | [DMG download](https://github.com/radut/rauthenticator/releases/download/v1.0.0/rAuthenticator-1.0.0.dmg), macOS 14+ | Coming soon, iOS / iPadOS 17+ | [.deb](https://github.com/radut/rauthenticator/releases/download/v1.0.0/rauthenticator_1.0.0_amd64.deb) (Ubuntu 24.04 or newer) or [AppImage](https://github.com/radut/rauthenticator/releases/download/v1.0.0/rAuthenticator-1.0.0-x86_64.AppImage), x86_64 |
 
 <a id="keyboard"></a>
 ## Keyboard
@@ -80,9 +80,9 @@ and the settings; then the iPad. All pictures use made-up accounts, with the cod
 
 | Platform | How | Requires |
 |---|---|---|
-| **Mac** | [Download the DMG](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator.dmg), open it, drag **rAuthenticator** onto **Applications**. Signed with Developer ID and notarized by Apple, so it opens like any other downloaded app. | macOS 14 or newer, Apple silicon or Intel |
+| **Mac** | [Download the DMG](https://github.com/radut/rauthenticator/releases/download/v1.0.0/rAuthenticator-1.0.0.dmg), open it, drag **rAuthenticator** onto **Applications**. Signed with Developer ID and notarized by Apple, so it opens like any other downloaded app. | macOS 14 or newer, Apple silicon or Intel |
 | **iPhone & iPad** | Coming soon. | iOS / iPadOS 17 or newer |
-| **Linux** | [.deb](https://github.com/radut/rauthenticator/releases/latest/download/rauthenticator_amd64.deb): `sudo apt install ./rauthenticator_amd64.deb` (pulls in GTK 4, libadwaita, libsecret, zbar, qrencode; the app lock uses polkit). [AppImage](https://github.com/radut/rauthenticator/releases/latest/download/rAuthenticator-x86_64.AppImage): `chmod +x`, then run it (everything bundled; the app lock uses a passphrase). | Ubuntu 24.04 or newer (glibc 2.39+), x86_64 |
+| **Linux** | [.deb](https://github.com/radut/rauthenticator/releases/download/v1.0.0/rauthenticator_1.0.0_amd64.deb): `sudo apt install ./rauthenticator_1.0.0_amd64.deb` (pulls in GTK 4, libadwaita, libsecret, zbar, qrencode; the app lock uses polkit). [AppImage](https://github.com/radut/rauthenticator/releases/download/v1.0.0/rAuthenticator-1.0.0-x86_64.AppImage): `chmod +x`, then run it (everything bundled; the app lock uses a passphrase). | Ubuntu 24.04 or newer (glibc 2.39+), x86_64 |
 
 ### From your phone to your Mac in two minutes
 
