@@ -538,7 +538,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
     </div>
     <div class="faq">
       <details><summary>Does my phone lose its accounts?</summary><p>No. Google Authenticator's export only shows QR codes; the accounts stay on the phone. You end up with the same codes on both.</p></details>
-      <details><summary>macOS says the app can't be opened.</summary><p>The download is not notarized. On macOS 15 or newer, open it once, then System Settings → Privacy &amp; Security → <b>Open Anyway</b>. On macOS 14: right-click the app → Open.</p></details>
+      <details><summary>Is the Mac download safe to open?</summary><p>Yes. The disk image and the app are signed with a Developer ID and notarized by Apple, so macOS opens them without warnings. Download it only from the GitHub release.</p></details>
       <details><summary>Why does it ask for Screen Recording or Camera?</summary><p>Only the scanners need them: the viewfinder, screen and region scans read your screen, the camera scan reads the camera. Nothing else uses them, and nothing leaves the Mac.</p></details>
       <details><summary>Can I move accounts between the Mac and the iPhone?</summary><p>Yes, the same way as from Google Authenticator: <b>Export All</b> on one shows transfer QR codes, the scanner on the other reads them.</p></details>
       <details><summary>Which codes work?</summary><p>Time-based (TOTP) and counter-based (HOTP), SHA-1, SHA-256 and SHA-512, 6 to 8 digits, any period. Google's transfer format can't carry 7-digit codes or periods other than 30&nbsp;s; those export one by one instead.</p></details>
